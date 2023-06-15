@@ -428,7 +428,43 @@ def mousePressed(button, state, x, y):
 
                 # Inicia o movimento
                 update_translation()
-            
+            else: 
+                selected_cube = selected
+                # Configura o movimento gradual do cubo
+                start_translation = cube_translations[selected_cube].copy()
+                target_translation = [x/500 for x in right_translation[selected_cube].copy()]
+
+
+                print(target_translation)
+          
+
+                total_frames = 3  # Número total de quadros para completar o movimento
+                frame = 0
+
+                def lerp(a, b, t):
+                    return np.array(a) + (np.array(b) - np.array(a)) * t
+
+                def update_translation(arg=None):
+                    nonlocal frame
+                    if frame >= total_frames:
+                        # Finaliza o movimento
+                        cube_translations[selected_cube] = start_translation
+                    else:
+                        # Atualiza gradualmente as coordenadas de translação
+                        t = frame / total_frames  # Calcula o fator de interpolação
+                        cube_translations[selected_cube] = lerp(start_translation, target_translation, t)
+                        frame += 1
+                        glutTimerFunc(4, update_translation, None)  # Aguarda 16ms (aproximadamente 60 quadros por segundo) e chama novamente a função
+
+
+
+                    glutPostRedisplay()
+
+
+                # Inicia o movimento
+                update_translation()
+                print(cube_translations[selected_cube])
+                cube_translations[selected_cube] = [0,0,0]
             
         
     glutPostRedisplay()
