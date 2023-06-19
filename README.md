@@ -22,7 +22,7 @@ pip install numpy PyOpenGL Pillow
 
 3. Execute o código usando o seguinte comando:
 ```
-python jogo_tapaway.py
+python tapaway.py
 ```
 
 ## Instruções
